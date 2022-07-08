@@ -12,11 +12,18 @@ import java.nio.ByteBuffer;
 public class Main {
 	public static void main(String[] args) 	{
 		byte[] key = BlockCipher.generatingKey(16);
-		System.out.println(Arrays.toString(key));
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter file name (.bmp): ");
+		String filename = in.nextLine();
+		System.out.println();
 
-		Main.testImage("8b_lena.bmp", key);
-		// Main.testString("abcdefgh", key);
-		// Main.test(key);
+		System.out.println("Wait...");
+		System.out.println();
+		
+		Main.testImage(filename, key);
+
+		System.out.println("Key 128-bit: " + Arrays.toString(key));
+		System.out.println("Complite! Check: /result/*.bmp");
 	}
 	public static void testImage(String name, byte[] key) {
 		Image image = new Image();
@@ -24,7 +31,8 @@ public class Main {
 		try {
 			message = image.readImage(name);
 		} catch(IOException e) {
-			System.out.println("Image reading error.");
+			System.out.println("Image reading error. Restart.");
+			System.exit(1);
 		}
 
 		BlockCipher enc =  new BlockCipher(message, key);
